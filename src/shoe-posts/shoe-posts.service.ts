@@ -2,19 +2,14 @@ import { Injectable, Logger, NotFoundException, UnprocessableEntityException } f
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ShoePost } from './shoe-post.entity';
-import { ShoePostModel } from './shoe-posts.interface';
 
 @Injectable()
 export class ShoePostsService {
-  // private shoePosts: Array<ShoePostModel> = []; // this is used as local of data storage
   constructor(
     @InjectRepository(ShoePost)
-    private readonly shoePostRepository: Repository<ShoePost>, // this is with db
+    private shoePostRepository: Repository<ShoePost>,
   ) {}
 
-  // public findAll(): Array<ShoePostModel> {
-    // return this.shoePosts; // this was used for local array
-  // }
   async findAll(): Promise<ShoePost[]> {
     return this.shoePostRepository.find();
   }
@@ -33,6 +28,9 @@ export class ShoePostsService {
     return this.shoePostRepository.findOne(id);
   }
 
+  createShoePost(shoePost: ShoePost): Promise<ShoePost> {
+    return this.shoePostRepository.save(shoePost);
+  }
 
   // public create(shoePost: ShoePostModel): ShoePostModel {
   //   const maxId: number = Math.max(...this.shoePosts.map((shoePost) => shoePost.id), 0);
