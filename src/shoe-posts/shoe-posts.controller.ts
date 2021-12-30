@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
-import { ShoePostModel } from './shoe-posts.interface';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Post, Put, Res } from '@nestjs/common';
+import { response } from 'express';
+import { ShoePost } from './shoe-post.entity';
 import { ShoePostsService } from './shoe-posts.service';
 
 @Controller('shoe-posts')
@@ -7,27 +8,40 @@ export class ShoePostsController {
   constructor(private readonly shoePostsService: ShoePostsService) {}
 
   @Get()
-    public findAll(): Array<ShoePostModel> {
-    return this.shoePostsService.findAll();
-  }
+    async findAll(@Res() response): Promise<ShoePost[]> {
+      const shoePosts = await this.shoePostsService.findAll()
+      return response.status(HttpStatus.OK).json({
+        shoePosts
+      })
+    }
 
-  @Get(':id')
-    public findOne(@Param('id', ParseIntPipe) id: number): ShoePostModel {
-    return this.shoePostsService.findOne(id);
-  }
+  @Get('/:id')
+    async findById(@Res() response, @Param('id') id) {
+      const shoePost = await this.shoePostsService.findOne(id)
+      return response.status(HttpStatus.OK).json({
+        shoePost
+      })
+    }
 
   @Post()
-    public create(@Body() shoePost: ShoePostModel): ShoePostModel {
-    return this.shoePostsService.create(shoePost);
-  }
+    async createShoePost(@Res() response, @Body() shoePost: ShoePost) {
+      const newShoePost = await this.shoePostsService.createShoePost(shoePost)
+      return response.status(HttpStatus.CREATED).json({
+        newShoePost
+      })
+    }
 
-  @Delete(':id')
-    public delete(@Param('id', ParseIntPipe) id: number): void {  
-    this.shoePostsService.delete(id);
-  }
-
-  @Put(':id')
-    public update(@Param('id', ParseIntPipe) id: number, @Body() shoePost: ShoePostModel): ShoePostModel {
-    return this.shoePostsService.update(id, shoePost);
-  }
+  @Delete('/:id')
+    async deleteShoePost(@Res() response, @Param('id') id) {
+      const shoePostToDelete = await this.shoePostsService.remove(id)
+      return response.status(HttpStatus.OK).json({})
+    }
+  
+  @Put('/:id')
+    async updateShoePost(@Res() response, @Param('id') id, @Body() shoePost: ShoePost) {
+      const shoePostToUpdate = await this.shoePostsService.update(id, shoePost)
+      return response.status(HttpStatus.OK).json({
+        shoePostToUpdate
+      })
+    }
 }

@@ -1,7 +1,6 @@
 export interface ShoePostModel {
   id?: number,
-  date: Date,
-  brand: string,
+  brand_id: number,
   condition: string,
   size: string,
   sport: string,
