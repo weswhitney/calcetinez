@@ -6,6 +6,6 @@ import { ShoePostsService } from './shoe-posts.service';
 @Module({
   imports: [ShoePostsModule],
   providers: [ShoePostsService],
-  controllers: [ShoePostsController]
+  controllers: [ShoePostsController],
 })
 export class ShoePostHttpModule {}

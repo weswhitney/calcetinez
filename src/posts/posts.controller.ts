@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { PostModel } from './posts.interface';
 import { PostsService } from './posts.service';
 
@@ -22,12 +31,15 @@ export class PostsController {
   }
 
   @Delete(':id')
-    public delete(@Param('id', ParseIntPipe) id: number): void {  
+  public delete(@Param('id', ParseIntPipe) id: number): void {
     this.postsService.delete(id);
   }
 
   @Put(':id')
-    public update(@Param('id', ParseIntPipe) id: number, @Body() post: PostModel): PostModel {
+  public update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() post: PostModel,
+  ): PostModel {
     return this.postsService.update(id, post);
   }
 }

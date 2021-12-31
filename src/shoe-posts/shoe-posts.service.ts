@@ -1,4 +1,9 @@
-import { Injectable, Logger, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ShoePost } from './shoe-post.entity';
@@ -14,7 +19,7 @@ export class ShoePostsService {
     return this.shoePostRepository.find();
   }
 
-  findOne(id: number): Promise<ShoePost>  {
+  findOne(id: number): Promise<ShoePost> {
     return this.shoePostRepository.findOne(id);
   }
 
@@ -27,7 +32,7 @@ export class ShoePostsService {
   }
 
   async update(id: number, shoePost: ShoePost): Promise<ShoePost> {
-    await this.shoePostRepository.update(id, shoePost)
-    return await this.shoePostRepository.findOne(id)
+    await this.shoePostRepository.update(id, shoePost);
+    return await this.shoePostRepository.findOne(id);
   }
 }
