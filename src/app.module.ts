@@ -3,8 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ShoePostsModule } from './shoe-posts/shoe-posts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ShoePost } from './shoe-posts/shoe-post.entity';
+import { ShoePost } from './shoe-posts/entities/shoe-post.entity';
 import { ConfigModule } from '@nestjs/config';
+import { BrandsModule } from './brands/brands.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ConfigModule } from '@nestjs/config';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    BrandsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
