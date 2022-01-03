@@ -15,7 +15,7 @@ export class ShoePostsService {
     private shoePostRepository: Repository<ShoePost>,
   ) {}
 
-  createShoePost(shoePost: ShoePost): Promise<ShoePost> {
+  create(shoePost: ShoePost): Promise<ShoePost> {
     return this.shoePostRepository.save(shoePost);
   }
 
