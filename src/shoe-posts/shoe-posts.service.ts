@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ShoePost } from './shoe-post.entity';
+import { ShoePost } from './entities/shoe-post.entity';
 
 @Injectable()
 export class ShoePostsService {
@@ -14,6 +14,10 @@ export class ShoePostsService {
     @InjectRepository(ShoePost)
     private shoePostRepository: Repository<ShoePost>,
   ) {}
+
+  createShoePost(shoePost: ShoePost): Promise<ShoePost> {
+    return this.shoePostRepository.save(shoePost);
+  }
 
   findAll(): Promise<ShoePost[]> {
     return this.shoePostRepository.find();
@@ -23,16 +27,12 @@ export class ShoePostsService {
     return this.shoePostRepository.findOne(id);
   }
 
-  createShoePost(shoePost: ShoePost): Promise<ShoePost> {
-    return this.shoePostRepository.save(shoePost);
+  async update(id: number, shoePost: ShoePost): Promise<ShoePost> {
+    await this.shoePostRepository.update(id, shoePost);
+    return await this.shoePostRepository.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
     await this.shoePostRepository.delete(id);
-  }
-
-  async update(id: number, shoePost: ShoePost): Promise<ShoePost> {
-    await this.shoePostRepository.update(id, shoePost);
-    return await this.shoePostRepository.findOne(id);
   }
 }
