@@ -6,8 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Res,
-  HttpStatus,
 } from '@nestjs/common';
 import { BrandsService } from './brands.service';
 import { Brand } from './entities/brand.entity';
@@ -17,11 +15,8 @@ export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 
   @Post()
-  create(@Res() response, @Body() brand: Brand) {
-    const newBrand = this.brandsService.create(brand);
-    return response.status(HttpStatus.CREATED).json({
-      newBrand,
-    });
+  create(@Body() brand: Brand) {
+    return this.brandsService.create(brand);
   }
 
   @Get()

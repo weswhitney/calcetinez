@@ -3,11 +3,9 @@ import {
   Controller,
   Delete,
   Get,
-  HttpStatus,
   Param,
+  Patch,
   Post,
-  Put,
-  Res,
 } from '@nestjs/common';
 import { ShoePost } from './entities/shoe-post.entity';
 import { ShoePostsService } from './shoe-posts.service';
@@ -17,44 +15,27 @@ export class ShoePostsController {
   constructor(private readonly shoePostsService: ShoePostsService) {}
 
   @Post()
-  async createShoePost(@Res() response, @Body() shoePost: ShoePost) {
-    const newShoePost = await this.shoePostsService.createShoePost(shoePost);
-    return response.status(HttpStatus.CREATED).json({
-      newShoePost,
-    });
+  create(@Body() shoePost: ShoePost) {
+    return this.shoePostsService.create(shoePost)
   }
 
   @Get()
-  async findAll(@Res() response): Promise<ShoePost[]> {
-    const shoePosts = await this.shoePostsService.findAll();
-    return response.status(HttpStatus.OK).json({
-      shoePosts,
-    });
+  findAll() {
+    return this.shoePostsService.findAll()
   }
 
-  @Get('/:id')
-  async findById(@Res() response, @Param('id') id) {
-    const shoePost = await this.shoePostsService.findOne(id);
-    return response.status(HttpStatus.OK).json({
-      shoePost,
-    });
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.shoePostsService.findOne(+id)
   }
 
-  @Put('/:id')
-  async updateShoePost(
-    @Res() response,
-    @Param('id') id,
-    @Body() shoePost: ShoePost,
-  ) {
-    const shoePostToUpdate = await this.shoePostsService.update(id, shoePost);
-    return response.status(HttpStatus.OK).json({
-      shoePostToUpdate,
-    });
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() shoePost: ShoePost) {
+    return this.shoePostsService.update(+id, shoePost)
   }
 
-  @Delete('/:id')
-  async deleteShoePost(@Res() response, @Param('id') id) {
-    await this.shoePostsService.remove(id);
-    return response.status(HttpStatus.OK).json({});
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.shoePostsService.remove(+id)
   }
 }
