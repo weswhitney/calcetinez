@@ -31,9 +31,8 @@ export class ShoePostsService {
     await this.shoePostRepository.update(id, shoePost);
     return await this.shoePostRepository.findOne(id);
   }
-  
+
   async remove(id: number): Promise<void> {
     await this.shoePostRepository.delete(id);
   }
-
 }

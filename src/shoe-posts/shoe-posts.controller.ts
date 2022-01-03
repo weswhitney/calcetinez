@@ -15,7 +15,7 @@ import { ShoePostsService } from './shoe-posts.service';
 @Controller('shoe-posts')
 export class ShoePostsController {
   constructor(private readonly shoePostsService: ShoePostsService) {}
-  
+
   @Post()
   async createShoePost(@Res() response, @Body() shoePost: ShoePost) {
     const newShoePost = await this.shoePostsService.createShoePost(shoePost);
@@ -23,7 +23,7 @@ export class ShoePostsController {
       newShoePost,
     });
   }
-  
+
   @Get()
   async findAll(@Res() response): Promise<ShoePost[]> {
     const shoePosts = await this.shoePostsService.findAll();
@@ -51,11 +51,10 @@ export class ShoePostsController {
       shoePostToUpdate,
     });
   }
-  
+
   @Delete('/:id')
   async deleteShoePost(@Res() response, @Param('id') id) {
     await this.shoePostsService.remove(id);
     return response.status(HttpStatus.OK).json({});
   }
-
 }
