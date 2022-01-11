@@ -9,7 +9,7 @@ export class BrandsService {
     @InjectRepository(Brand)
     private brandsRepository: Repository<Brand>,
   ) {}
-  
+
   create(brand: Brand) {
     return this.brandsRepository.save(brand);
   }

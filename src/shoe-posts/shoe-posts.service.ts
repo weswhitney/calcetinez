@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  Logger,
-  NotFoundException,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ShoePost } from './entities/shoe-post.entity';
@@ -19,12 +14,26 @@ export class ShoePostsService {
     return this.shoePostRepository.save(shoePost);
   }
 
-  findAll(): Promise<ShoePost[]> {
-    return this.shoePostRepository.find();
+  async findAll(): Promise<ShoePost[]> {
+    const shoePost = await this.shoePostRepository.query(`
+    SELECT sp.*, sb.brand_name
+    FROM shoe_post sp
+        left join brand sb on sp.brand_id = sb.id`);
+
+    return shoePost;
   }
 
-  findOne(id: number): Promise<ShoePost> {
-    return this.shoePostRepository.findOne(id);
+  async findOne(id: number): Promise<ShoePost> {
+    const shoePost = await this.shoePostRepository.query(
+      `
+    SELECT sp.*, sb.brand_name
+    FROM shoe_post sp
+        left join brand sb on sp.brand_id = sb.id
+    WHERE sp.id = ?`,
+      [id],
+    );
+
+    return shoePost;
   }
 
   async update(id: number, shoePost: ShoePost): Promise<ShoePost> {

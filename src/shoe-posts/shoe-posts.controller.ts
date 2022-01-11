@@ -16,26 +16,26 @@ export class ShoePostsController {
 
   @Post()
   create(@Body() shoePost: ShoePost) {
-    return this.shoePostsService.create(shoePost)
+    return this.shoePostsService.create(shoePost);
   }
 
   @Get()
   findAll() {
-    return this.shoePostsService.findAll()
+    return this.shoePostsService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.shoePostsService.findOne(+id)
+    return this.shoePostsService.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() shoePost: ShoePost) {
-    return this.shoePostsService.update(+id, shoePost)
+    return this.shoePostsService.update(+id, shoePost);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.shoePostsService.remove(+id)
+    return this.shoePostsService.remove(+id);
   }
 }
